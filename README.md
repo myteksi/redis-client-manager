@@ -1,4 +1,17 @@
-redis-client-manager
+Redis Client Manager
 ====================
 
-Manager for redis clients, it will retrieve the current active connection and re-use it
+Super simple redis client manager to make sure that we don't need to spawn multiple redis connection.
+
+### Usage
+```
+var redisManager = require('redis-client-manager')
+var redisClient = redisManager.getClient()
+
+redisClient.lpush('hello_queue', 'world')
+```
+
+### Running test
+```
+npm test
+```

@@ -1,0 +1,22 @@
+{
+  "name": "redis-client-manager",
+  "version": "0.0.1",
+  "description": "Manager for redis clients, it will retrieve the current active connection and re-use it",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha specs/* -R nyan -u bdd"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/myteksi/redis-client-manager.git"
+  },
+  "author": "Fadrizul Hasani <fadrizul@gmail.com>",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/myteksi/redis-client-manager/issues"
+  },
+  "dependencies": {
+    "redis": ">= 0.0.0",
+    "should": ">= 0.0.0"
+  }
+}

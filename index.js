@@ -21,7 +21,6 @@ Author: Fadrizul Hasani <fadrizul@gmail.com>
     }
 
     if (options.exit) {
-      redisClient.quit();
       process.exit();
     }
   }

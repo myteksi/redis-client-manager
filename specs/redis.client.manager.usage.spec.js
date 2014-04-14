@@ -11,9 +11,9 @@ describe('When using the Redis client manager', function() {
   });
 
   after(function(done) {
-    redisClient.quit()
+    redisClient.quit();
     done()
-  })
+  });
 
   describe('When pushing a value to a list', function() {
 

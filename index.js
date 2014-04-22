@@ -35,7 +35,10 @@ Author: Fadrizul Hasani <fadrizul@gmail.com>
   // Take in options for the port & host
   exports.getClient = function (opts) {
     var opts = opts || {};
-    return redisClient || redis.createClient(opts.redisPort, opts.redisHost);
+    if (redisClient === null) {
+      redisClient = redis.createClient(opts.redisPort, opts.redisHost);
+    }
+    return redisClient;
   };
 
 }).call(this);

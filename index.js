@@ -4,24 +4,20 @@
  */
 (function () { 'use strict';
 
-  var redis, redisClient, redisSecondClient;
-
-  redis             = require('redis');
-  redisClient       = null;
-  redisSecondClient = null;
+  var redis  = require('redis');
+  var _      = require('underscore');
+  var cached = {};
+  
 
   function gracefulExit (opts, err) {
     if (opts.cleanup) {
-      // Check if the connection exist before quitting
-      if (redisClient != null) {
-        redisClient.quit();
-        redisClient = null;
-      }
+      _.each(cached, function (client) {
+        if (client) {
+          redisClient.quit();
+        }
+      });
 
-      if (redisSecondClient != null) {
-        redisSecondClient.quit();
-        redisSecondClient = null;
-      }
+      cached = {};
     }
 
     if (err) {
@@ -42,24 +38,20 @@
   // connection.
   // If it doesn't exist, create a new connection.
   // Take in options for the port & host.
-  exports.getClient = function (opts) {
+  exports.getClient = function (opts, useSub) {
     opts = opts || {};
 
-    if (redisClient === null) {
-      redisClient = redis.createClient(opts.redisPort, opts.redisHost);
+    var cacheKey    = JSON.stringify(opts) + (useSub ? '_SUB' : '');
+    var redisClient = cached[cacheKey];
+    if (redisClient) {
+      return redisClient;
     }
 
+    redisClient = cached[cacheKey] = redis.createClient(opts.redisPort,
+                                                        opts.redisHost);
     return redisClient;
   };
 
-  exports.getSecondClient = function (opts) {
-    opts = opts || {};
 
-    if (redisSecondClient === null) {
-      redisSecondClient = redis.createClient(opts.redisPort, opts.redisHost);
-    }
-
-    return redisSecondClient;
-  };
 
 }).call(this);

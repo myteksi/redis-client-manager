@@ -7,13 +7,13 @@
   var redis  = require('redis');
   var _      = require('underscore');
   var cached = {};
-  
+
 
   function gracefulExit (opts, err) {
     if (opts.cleanup) {
       _.each(cached, function (client) {
         if (client) {
-          redisClient.quit();
+          client.quit();
         }
       });
 
